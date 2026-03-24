@@ -130,6 +130,7 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
   cursor: pointer; transition: background .2s, transform .15s; margin-top: 4px;
 }
 .submit-btn:hover { background: #2C2C2A; transform: translateY(-1px); }
+.privacy-note { font-size: 11px; color: var(--gray); line-height: 1.6; margin-top: 12px; text-align: center; }
 .success-msg { display: none; text-align: center; padding: 40px 20px; }
 .success-msg h3 { font-family: 'Instrument Serif', serif; font-size: 28px; font-style: italic; color: var(--black); margin-bottom: 8px; }
 .success-msg p { color: var(--gray); font-size: 14px; }
@@ -425,6 +426,11 @@ footer p { font-size: 13px; color: var(--gray); }
             <span data-lang="ua">Надіслати — відповім протягом 24 год</span>
             <span data-lang="fr">Envoyer — Je répondrai sous 24h</span>
           </button>
+          <p class="privacy-note">
+            <span data-lang="en" class="active">By submitting this form, you agree that your data will be stored solely for the purpose of scheduling lessons. You may request deletion of your data at any time by contacting me directly.</span>
+            <span data-lang="ua">Надсилаючи цю форму, ви погоджуєтесь що ваші дані будуть збережені виключно для організації уроків. Ви можете будь-коли попросити видалити ваші дані, написавши мені напряму.</span>
+            <span data-lang="fr">En soumettant ce formulaire, vous acceptez que vos données soient conservées uniquement dans le but d'organiser des cours. Vous pouvez demander la suppression de vos données à tout moment en me contactant directement.</span>
+          </p>
         </form>
 
         <div class="success-msg" id="successMsg">
