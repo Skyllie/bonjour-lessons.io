@@ -135,7 +135,26 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .success-msg h3 { font-family: 'Instrument Serif', serif; font-size: 28px; font-style: italic; color: var(--black); margin-bottom: 8px; }
 .success-msg p { color: var(--gray); font-size: 14px; }
 
-/* FOOTER */
+.cookie-banner {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+  background: var(--black); color: rgba(255,255,255,0.8);
+  padding: 16px 40px; display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; font-size: 13px; line-height: 1.5;
+  transform: translateY(100%); transition: transform 0.4s ease;
+}
+.cookie-banner.visible { transform: translateY(0); }
+.cookie-banner a { color: var(--gold); text-decoration: underline; }
+.cookie-accept {
+  background: var(--white); color: var(--black); border: none;
+  padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; font-family: 'Inter', sans-serif;
+  transition: background .2s;
+}
+.cookie-accept:hover { background: var(--border); }
+@media (max-width: 800px) {
+  .cookie-banner { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
+  .cookie-accept { width: 100%; text-align: center; }
+}
 footer { padding: 32px 40px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 footer .logo { font-size: 17px; }
 footer p { font-size: 13px; color: var(--gray); }
@@ -483,12 +502,33 @@ footer p { font-size: 13px; color: var(--gray); }
   </div>
 </section>
 
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookieBanner">
+  <span>
+    <span data-lang="en" class="active">This site uses Google Fonts (an external service). By continuing to browse, you agree to the use of these technical resources. No tracking or advertising cookies are used.</span>
+    <span data-lang="ua">Цей сайт використовує Google Fonts (зовнішній сервіс). Продовжуючи перегляд, ви погоджуєтесь з використанням цих технічних ресурсів. Рекламні або трекінгові cookies не використовуються.</span>
+    <span data-lang="fr">Ce site utilise Google Fonts (un service externe). En continuant à naviguer, vous acceptez l'utilisation de ces ressources techniques. Aucun cookie de suivi ou publicitaire n'est utilisé.</span>
+  </span>
+  <button class="cookie-accept" onclick="acceptCookies()">OK</button>
+</div>
+
 <footer>
   <div class="logo">French <em>with Anastasia</em></div>
   <p><span data-lang="en" class="active">© 2025 · Online French lessons · All levels welcome</span><span data-lang="ua">© 2025 · Онлайн уроки французької · Всі рівні</span><span data-lang="fr">© 2025 · Cours de français en ligne · Tous niveaux</span></p>
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Cookie banner
+function acceptCookies() {
+  localStorage.setItem('cookies_ok', '1');
+  document.getElementById('cookieBanner').classList.remove('visible');
+}
+window.addEventListener('load', () => {
+  if (!localStorage.getItem('cookies_ok')) {
+    setTimeout(() => document.getElementById('cookieBanner').classList.add('visible'), 800);
+  }
+});
+
 let lang = 'en';
 function setLang(l) {
   lang = l;
