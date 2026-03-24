@@ -299,7 +299,7 @@ footer p { font-size: 13px; color: var(--gray); }
         <p><span data-lang="en" class="active">Fill in the form and I'll get back to you within 24 hours to schedule your first lesson.</span><span data-lang="ua">Заповніть форму, і я відповім протягом 24 годин, щоб домовитись про перший урок.</span><span data-lang="fr">Remplissez le formulaire et je vous répondrai sous 24h pour organiser votre premier cours.</span></p>
         <div class="contact-detail">
           <div class="contact-icon">📧</div>
-          <div><span class="contact-label">Email</span><span class="contact-value">anastasia@frenchWithAnastasia.com</span></div>
+          <div><span class="contact-label">Email</span><span class="contact-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cfaea1aebcbbaebca6ae8fa9bdaaa1aca798a6bba78ea1aebcbbaebca6aee1aca0a2">[email&#160;protected]</a></span></div>
         </div>
         <div class="contact-detail">
           <div class="contact-icon">
@@ -317,19 +317,13 @@ footer p { font-size: 13px; color: var(--gray); }
       </div>
 
       <div class="booking-form">
-        <!-- ⬇ REMOVE THIS BLOCK AFTER FORMSPREE SETUP -->
-        <div class="form-setup-note">
-          <strong>⚙️ One-time setup (5 minutes):</strong> Go to <strong>formspree.io</strong> → create a free account → click "New Form" → enter your email → copy the form ID (e.g. <code>xkneavyz</code>) → in this file, replace <code>YOUR_FORM_ID</code> in the form action. Done — all submissions arrive in your inbox instantly.
-        </div>
-        <!-- ⬆ REMOVE AFTER SETUP -->
-
         <div class="form-title">
           <span data-lang="en" class="active">Tell me about you</span>
           <span data-lang="ua">Розкажіть про себе</span>
           <span data-lang="fr">Parlez-moi de vous</span>
         </div>
 
-        <form id="bookingForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <form id="bookingForm">
           <div class="form-row">
             <div class="form-group">
               <label class="form-label"><span data-lang="en" class="active">Your name</span><span data-lang="ua">Ваше ім'я</span><span data-lang="fr">Votre prénom</span> *</label>
@@ -356,7 +350,7 @@ footer p { font-size: 13px; color: var(--gray); }
             <label class="form-label">🎯 <span data-lang="en" class="active">Learning goal</span><span data-lang="ua">Ціль навчання</span><span data-lang="fr">Objectif</span> *</label>
             <select name="goal" required>
               <option value="" disabled selected>— <span data-lang="en" class="active">select</span> —</option>
-              <option value="conversation">@ Conversation / Розмовна / Conversation</option>
+              <option value="conversation">💬 Conversation / Розмовна / Conversation</option>
               <option value="travel">✈️ Travel / Подорожі / Voyages</option>
               <option value="work">💼 Work / Робота / Travail</option>
               <option value="delf_dalf">📋 DELF / DALF exam</option>
@@ -420,12 +414,11 @@ footer p { font-size: 13px; color: var(--gray); }
           </div>
 
           <div class="form-group">
-            <label class="form-label">@ <span data-lang="en" class="active">Anything else?</span><span data-lang="ua">Що ще важливо знати?</span><span data-lang="fr">Autre chose ?</span></label>
+            <label class="form-label">💬 <span data-lang="en" class="active">Anything else?</span><span data-lang="ua">Що ще важливо знати?</span><span data-lang="fr">Autre chose ?</span></label>
             <textarea name="message" placeholder="Previous experience, specific topics, questions..."></textarea>
           </div>
 
-          <input type="hidden" name="_subject" value="🇫🇷 New booking request — French with Anastasia">
-          <input type="hidden" name="_replyto" value="">
+
 
           <button type="submit" class="submit-btn">
             <span data-lang="en" class="active">Send — I'll reply within 24 hours</span>
@@ -448,7 +441,7 @@ footer p { font-size: 13px; color: var(--gray); }
   <p><span data-lang="en" class="active">© 2025 · Online French lessons · All levels welcome</span><span data-lang="ua">© 2025 · Онлайн уроки французької · Всі рівні</span><span data-lang="fr">© 2025 · Cours de français en ligne · Tous niveaux</span></p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 let lang = 'en';
 function setLang(l) {
   lang = l;
@@ -462,11 +455,45 @@ document.querySelectorAll('.il').forEach(el => {
   if (!el.dataset.lang) el.dataset.lang = 'en';
 });
 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVBq72Seg1CdaEo5pjylVYwq-cV6O-elnjhd-1I-ufFShL3TbpTda7hsFZWn6Ove2U/exec'; // ← вставте сюди URL з Google Apps Script
+
 const form = document.getElementById('bookingForm');
 form.addEventListener('submit', async e => {
   e.preventDefault();
   const btn = form.querySelector('.submit-btn');
   btn.textContent = '⏳ Sending...'; btn.disabled = true;
+
+  // Збираємо дані форми
+  const fd = new FormData(form);
+  const days = fd.getAll('days').join(', ');
+  const data = {
+    timestamp:  new Date().toLocaleString('uk-UA'),
+    name:       fd.get('name'),
+    email:      fd.get('email'),
+    instagram:  fd.get('messenger'),
+    language:   fd.get('language'),
+    goal:       fd.get('goal'),
+    level:      fd.get('level'),
+    days:       days || '—',
+    time:       fd.get('time'),
+    platform:   fd.get('platform'),
+    message:    fd.get('message') || '—'
+  };
+
   try {
-    const res = await fetch(form.action, { method:'POST', body: new FormData(form), headers:{'Accept':'application/json'} });
-    if (res.ok) { form.style.display='none'; document.get
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    form.style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  } catch {
+    btn.textContent = '❌ Connection error — please try again';
+    btn.disabled = false;
+  }
+});-e 
+</script>
+</body>
+</html>
